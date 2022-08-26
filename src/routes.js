@@ -1,5 +1,5 @@
 const express = require('express');
-const { readTalker, readTalkerId } = require('./talkerReadAndWrite');
+const { readTalker, readTalkerId, writeToken } = require('./talkerReadAndWrite');
 
 const routes = express.Router();
 
@@ -18,8 +18,15 @@ routes.get(('/talker/:id'), async (req, res) => {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
-routes.post('/', (req, res) => {
-  res.status(400).json({ message: 'rota ainda não instalada' });
+routes.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  const token = Math.random().toString(16).substr(2) + Math.random().toString(16).substr(2);
+  const newtoken = token.slice(0, -10);
+  console.log('rotas token ', newtoken);
+
+  await writeToken(email, password, newtoken);
+
+  return res.status(200).json({ token: newtoken });
 });
 
 module.exports = routes;

@@ -20,7 +20,21 @@ const readTalkerId = async (id) => {
     return null;
 };
 
+const writeToken = async (email, password, token) => {
+    const newToken = {
+        email, 
+        password,
+        token,
+    };
+
+    const talkers = await readTalker();
+    const newData = [...talkers, { ...newToken }];
+    await fs.writeFile(filePath, JSON.stringify(newData));
+    return token;
+};
+
 module.exports = {
     readTalker,
     readTalkerId,
+    writeToken,
 };
