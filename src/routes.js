@@ -1,5 +1,7 @@
 const express = require('express');
 const { readTalker, readTalkerId, writeToken } = require('./talkerReadAndWrite');
+const emailValidation = require('./middlewares/emailValidation');
+const passwordValidation = require('./middlewares/passwordValidation');
 
 const routes = express.Router();
 
@@ -18,11 +20,10 @@ routes.get(('/talker/:id'), async (req, res) => {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
-routes.post('/login', async (req, res) => {
+routes.post('/login', emailValidation, passwordValidation, async (req, res) => {
   const { email, password } = req.body;
   const token = Math.random().toString(16).substr(2) + Math.random().toString(16).substr(2);
-  const newtoken = token.slice(0, -10);
-  console.log('rotas token ', newtoken);
+  const newtoken = token.substr(0, 16);
 
   await writeToken(email, password, newtoken);
 
