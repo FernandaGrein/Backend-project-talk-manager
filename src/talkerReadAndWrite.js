@@ -33,8 +33,16 @@ const writeToken = async (email, password, token) => {
     return token;
 };
 
+const writeTalker = async (person) => {
+    const talkers = await readTalker();
+    const newData = [...talkers, { ...person }];
+    await fs.writeFile(filePath, JSON.stringify(newData));
+    return newData;
+};
+
 module.exports = {
     readTalker,
     readTalkerId,
     writeToken,
+    writeTalker,
 };
