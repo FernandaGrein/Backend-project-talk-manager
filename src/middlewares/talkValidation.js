@@ -1,6 +1,7 @@
 const talkValidation = (req, res, next) => {
     const { talk } = req.body;
-    const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/;
+    const regex = /^([1-9]|\d{2})\/\d{2}\/\d{4}$/;
+    // const regex = /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/;
     if (!talk) {
       return res.status(400).json({ message: 'O campo "talk" é obrigatório' });
     }

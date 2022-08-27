@@ -1,5 +1,6 @@
 const express = require('express');
-const { readTalker, readTalkerId, writeToken, writeTalker } = require('./talkerReadAndWrite');
+const { readTalker, readTalkerId, /* writeToken, */ writeTalker, 
+  getLastId, editTalker } = require('./talkerReadAndWrite');
 const emailValidation = require('./middlewares/emailValidation');
 const passwordValidation = require('./middlewares/passwordValidation');
 const tokenValidation = require('./middlewares/tokenValidation');
@@ -19,8 +20,16 @@ routes.post('/talker', tokenValidation, nameValidation, ageValidation,
     talkValidation, talkRateValidation, async (req, res) => {
     const person = req.body;
 
-    await writeTalker(person);
-    res.status(201).json(person);
+    const lastId = await getLastId();
+    const newTalker = {
+        id: Number(lastId) + 1,
+        name: person.name,
+        age: person.age,
+        talk: person.talk,
+    };
+    await writeTalker(newTalker);
+
+    return res.status(201).json(newTalker);
 });
 
 routes.get(('/talker/:id'), async (req, res) => {
@@ -33,12 +42,22 @@ routes.get(('/talker/:id'), async (req, res) => {
     return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
 });
 
+routes.put('/talker/:id', tokenValidation, nameValidation, ageValidation, 
+talkValidation, talkRateValidation, async (req, res) => {
+    const talker = req.body;
+    const { id } = req.params;
+
+    await editTalker(id, talker);
+
+    return res.status(200).json(talker);
+});
+
 routes.post('/login', emailValidation, passwordValidation, async (req, res) => {
-  const { email, password } = req.body;
+ // const { email, password } = req.body;
   const token = Math.random().toString(16).substr(2) + Math.random().toString(16).substr(2);
   const newtoken = token.substr(0, 16);
 
-  await writeToken(email, password, newtoken);
+ // await writeToken(email, password, newtoken);
 
   return res.status(200).json({ token: newtoken });
 });

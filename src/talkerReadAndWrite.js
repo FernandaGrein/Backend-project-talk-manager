@@ -40,9 +40,35 @@ const writeTalker = async (person) => {
     return newData;
 };
 
+const getLastId = async () => {
+    const Alltalkers = await readTalker();
+    const lastId = Alltalkers.length;
+    return lastId;
+};
+
+const editTalker = async (id, talker) => {
+  let originalTalker = { ...await readTalkerId(id) };
+  
+   originalTalker = {
+    name: talker.name,
+    id, 
+    age: talker.age,
+    talk: {
+        watchedAt: talker.watchedAt,
+        rate: talker.rate,
+    },
+  };
+  const allTalkers = await readTalker();
+  allTalkers.splice(id, 1, originalTalker);
+
+  await fs.writeFile(filePath, JSON.stringify(allTalkers));
+};
+
 module.exports = {
     readTalker,
     readTalkerId,
     writeToken,
     writeTalker,
+    editTalker,
+    getLastId,
 };
