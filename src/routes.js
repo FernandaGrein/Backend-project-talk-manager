@@ -47,9 +47,9 @@ talkValidation, talkRateValidation, async (req, res) => {
     const talker = req.body;
     const { id } = req.params;
 
-    await editTalker(id, talker);
-
-    return res.status(200).json(talker);
+   const editedTalker = await editTalker(id, talker);
+    
+    return res.status(200).json(editedTalker);
 });
 
 routes.post('/login', emailValidation, passwordValidation, async (req, res) => {
