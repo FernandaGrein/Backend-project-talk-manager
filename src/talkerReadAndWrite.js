@@ -62,6 +62,13 @@ const editTalker = async (paramnsId, talker) => {
   return originalTalker;
 };
 
+const deleteTalker = async (id) => {
+    const talkers = [...await readTalker()];
+    const removedTalker = talkers.filter((item) => Number(item.id) !== Number(id));
+
+    await fs.writeFile(filePath, JSON.stringify(removedTalker));
+};
+
 module.exports = {
     readTalker,
     readTalkerId,
@@ -69,4 +76,5 @@ module.exports = {
     writeTalker,
     editTalker,
     getLastId,
+    deleteTalker,
 };

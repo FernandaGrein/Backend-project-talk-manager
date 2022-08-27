@@ -1,6 +1,6 @@
 const express = require('express');
 const { readTalker, readTalkerId, /* writeToken, */ writeTalker, 
-  getLastId, editTalker } = require('./talkerReadAndWrite');
+  getLastId, editTalker, deleteTalker } = require('./talkerReadAndWrite');
 const emailValidation = require('./middlewares/emailValidation');
 const passwordValidation = require('./middlewares/passwordValidation');
 const tokenValidation = require('./middlewares/tokenValidation');
@@ -50,6 +50,14 @@ talkValidation, talkRateValidation, async (req, res) => {
    const editedTalker = await editTalker(id, talker);
     
     return res.status(200).json(editedTalker);
+});
+
+routes.delete('/talker/:id', tokenValidation, async (req, res) => {
+  const { id } = req.params;
+
+  await deleteTalker(id);
+
+  res.status(204).end();
 });
 
 routes.post('/login', emailValidation, passwordValidation, async (req, res) => {
