@@ -1,6 +1,6 @@
 const express = require('express');
 const { readTalker, readTalkerId, /* writeToken, */ writeTalker, 
-  getLastId, editTalker, deleteTalker } = require('./talkerReadAndWrite');
+  getLastId, editTalker, deleteTalker, searchTalkByQyery } = require('./talkerReadAndWrite');
 const emailValidation = require('./middlewares/emailValidation');
 const passwordValidation = require('./middlewares/passwordValidation');
 const tokenValidation = require('./middlewares/tokenValidation');
@@ -30,6 +30,14 @@ routes.post('/talker', tokenValidation, nameValidation, ageValidation,
     await writeTalker(newTalker);
 
     return res.status(201).json(newTalker);
+});
+
+routes.get('/talker/search', tokenValidation, async (req, res) => {
+    const { q } = req.query;
+
+    const result = await searchTalkByQyery(q);
+
+    return res.status(200).json(result);
 });
 
 routes.get(('/talker/:id'), async (req, res) => {

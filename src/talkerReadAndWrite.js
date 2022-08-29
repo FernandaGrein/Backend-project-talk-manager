@@ -69,6 +69,15 @@ const deleteTalker = async (id) => {
     await fs.writeFile(filePath, JSON.stringify(removedTalker));
 };
 
+const searchTalkByQyery = async (query) => {
+    const talkers = [...await readTalker()];
+    const filter = talkers.filter((person) => person.name.includes(query));
+    if (filter) {
+        return filter;
+    }
+    return talkers;
+};
+
 module.exports = {
     readTalker,
     readTalkerId,
@@ -77,4 +86,5 @@ module.exports = {
     editTalker,
     getLastId,
     deleteTalker,
+    searchTalkByQyery,
 };
