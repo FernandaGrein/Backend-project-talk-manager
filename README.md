@@ -1,6 +1,6 @@
-Este é o quarto projeto no modulo de Back-End da trybe, nele foram trabalhado os conceitos do API Rest, desenvolvendo os endpoints de um C.R.U.D de palestrantes talkers.
+Este é o quarto projeto no modulo de Back-End da trybe, nele foi trabalhado os conceitos do API Rest, desenvolvendo os endpoints de um C.R.U.D de palestrantes.
 
-Para acessar esse projeto, clone o repositório, acesse a pasta recem clonada e utilize o docker para rodar a aplicação, seguindo os passos abaixo: 
+Para acessar esse projeto, clone o repositório, entre na pasta recem clonada e utilize o docker para rodar a aplicação, seguindo os passos abaixo: 
  - git clone git@github.com:FernandaGrein/Backend-project-talk-manager.git
  - cd Backend-project-talk-manager
  - docker-compose up -d
